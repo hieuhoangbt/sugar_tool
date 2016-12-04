@@ -1,0 +1,48 @@
+
+#business-process-data-top-bar{
+    margin-top: 30px;
+    padding-right: 15px;
+    padding-bottom: 24px;
+}
+ul.dropdown-menu.hdropdown.animated.flipInX.businessProcessMenu {
+    padding: 15px;
+}
+
+#business-process-data-top-bar .dropdown-menu li {
+    border-bottom: solid 1px #fff !important;
+    padding: 10px 0 !important;
+}
+#business-process-data-top-bar .dropdown-menu li a {
+    padding: 10px 10px 0 10px !important;
+    border-bottom: none !important;
+}
+#business-process-data-top-bar:hover .dropdown-menu{
+    display: block;
+}
+#business-process-data-top-bar .dropdown-menu{
+    right:0;
+    left: auto;
+}
+
+#tab-actions .dropdown-menu{
+    padding: 0;
+}
+#tab-actions .subnav li{
+    position: relative;
+}
+#tab-actions .subnav li:hover .dropdown-menu {
+    display: block;
+    padding: 0;
+    top: 0;
+    left: 100%;   
+    position: absolute;
+}
+
+#tab-actions .dropdown-menu li a{
+    border-bottom: none !important;
+}
+
+.clickMenu.selectActions .sugar_action_button ul.subnav.ddopen{
+    left: 0 !important;
+    right: auto !important;
+}
