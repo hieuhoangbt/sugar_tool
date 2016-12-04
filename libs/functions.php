@@ -2,12 +2,8 @@
 
 function isZip($file)
 {
-    // get the first 7 bytes
     $bytes = file_get_contents($file, FALSE, NULL, 0, 7);
     $ext = strtolower(substr($file, - 4));
-    // ZIP magic number: none, though PK\003\004, PK\005\006 (empty archive), 
-    // or PK\007\008 (spanned archive) are common.
-    // http://en.wikipedia.org/wiki/ZIP_(file_format)
     if ($ext == '.zip' && substr($bytes, 0, 2) == 'PK') {
         return TRUE;
     }

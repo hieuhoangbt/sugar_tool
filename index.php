@@ -30,7 +30,7 @@ if ($_FILES) {
                             ${$newVar}['copy'] = $arr;
                             echo var_export(${$newVar}['copy'], true); exit;
                         }
-                        
+
                         $str = $subvar . " = " . var_export(${$newVar}, true);
                         $newString .= $str . ";\n\n\n\n\n";
                     }
@@ -52,6 +52,8 @@ if ($_FILES) {
                     if (!$file->isDir()) {
                         $filePath = $file->getRealPath();
                         $relativePath = substr($filePath, strlen($tmpPath));
+                        str_replace("\\", "\/", $filePath);
+                        str_replace("\\", "\/", $relativePath);
                         $nZip->addFile($filePath, $relativePath);
                     }
                 }
