@@ -16,14 +16,25 @@ function createCopyArray($path, $tmpPath = "")
     global $arr, $langArr;
     $dirs = scandir($path);
     foreach ($dirs as $dir) {
-        if ($dir == "." || $dir == "..") {
+        if($dir == "vendor") {
+            $a = $tmpPath . "/" . $dir;
+            $from = "<basepath>/SugarModules" . $a;
+            $to = $a;
+            $tmp = array(
+                "from" => $from,
+                "to" => substr($to, 1, strlen($to))
+            );
+            $arr[count($arr)] = $tmp;
+        }
+        $excl = [".", "..", "relationships", "vendor"];
+        if (in_array($dir, $excl)) {
             continue;
         }
         $currentPath = $path . "/" . $dir;
         if (is_file($currentPath)) {
             $a = $tmpPath . "/" . $dir;
             $from = "<basepath>/SugarModules" . $a;
-            if (!in_array($from, $langArr)) {
+            if (!in_array($from, $langArr) && strpos($from, "composer.lock") == false) {
                 $to = $a;
                 $tmp = array(
                     "from" => $from,

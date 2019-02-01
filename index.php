@@ -4,7 +4,7 @@ if ($_FILES) {
     $path = $packageName = $_FILES['package']['name'];
     $ext = pathinfo($path, PATHINFO_EXTENSION);
     $mime_type = $_FILES['package']['type'];
-    if (($mime_type === 'application/octet-stream' || $mime_type === 'application/zip') && $ext === 'zip') {
+    if (($mime_type === 'application/octet-stream' || $mime_type === 'application/zip' || $mime_type === 'application/x-zip-compressed') && $ext === 'zip') {
         $dest = dirname(__FILE__) . "/packages/" . $path;
         if (move_uploaded_file($_FILES['package']['tmp_name'], $dest)) {
             $zip = new ZipArchive;
@@ -28,7 +28,10 @@ if ($_FILES) {
                             $arr = array();
                             createCopyArray($sugarModulePath, "", $langArr);
                             ${$newVar}['copy'] = $arr;
-                            echo var_export(${$newVar}['copy'], true); exit;
+                            @unlink($tmpPath);
+                            @unlink($dest);
+                            echo "<xmp>";
+                            echo var_export(${$newVar}['copy'], true) . "</xmp>"; exit;
                         }
 
                         $str = $subvar . " = " . var_export(${$newVar}, true);
