@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Collaboration</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
+    <script src="./jquery-resizable/src/jquery-resizable.js"></script>
+    <style type="text/css">
+        .clb-box {
+            position: absolute;
+            right: 0;
+            bottom: 10px;
+            overflow: hidden;
+        }
+
+        .box {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            bottom: 10px;
+            right: 0;
+            width: 500px;
+            height: 400px;
+            min-height: 100px;
+            min-width: 200px;
+            max-width: 999px;
+            max-height: 800px;
+        }
+
+        .boxheader {
+            background: #535353;
+            color: white;
+            padding: 5px;
+            writing-mode: vertical-lr;
+            -ms-writing-mode: tb-lr;
+            text-orientation: mixed;
+            -webkit-transform: scale(-1, -1);
+            transform: scale(-1, -1);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .boxbody {
+            flex: 1 1 auto;
+            height: 100%;
+            background: aliceblue;
+            position: relative;
+        }
+
+        .box-content {
+            padding: 5px;
+        }
+
+        .win-size-grip {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 0;
+            left: 0;
+            cursor: nwse-resize;
+            -webkit-transform: scale(-1, -1);
+            transform: scale(-1, -1);
+        }
+
+        .win-size-grip.bl {
+            bottom: 0;
+            top: unset;
+            cursor: nesw-resize;
+        }
+    </style>
+</head>
+<body>
+<div class="clb-box">
+    <div class="box">
+        <div class="boxheader" onclick="toggleCollapse();">Collaboration</div>
+        <div class="splitter-horizontal"></div>
+        <div class="boxbody">
+            <div class="box-content" id='discourse-comments'></div>
+            <div class="win-size-grip"></div>
+            <div class="win-size-grip bl"></div>
+        </div>
+        <div class="splitter"></div>
+    </div>
+</div>
+</body>
+<script>
+    var collapse = false;
+    var right = $(".boxbody").width();
+    var opt = {
+        // optional selector for handle that starts dragging
+        handleSelector: ".win-size-grip",
+        // resize the width
+        resizeWidth: true,
+        // resize the height
+        resizeHeight: true,
+        // the side that the width resizing is relative to
+        resizeWidthFrom: 'left',
+        // the side that the height resizing is relative to
+        resizeHeightFrom: 'top',
+        // hook into start drag operation (event,$el,opt passed - return false to abort drag)
+        onDragStart: null,
+        // hook into stop drag operation (event,$el,opt passed)
+        onDragEnd: function() {
+            right = $(".boxbody").width();
+        },
+        // hook into each drag operation (event,$el,opt passed)
+        onDrag: null,
+        // disable touch-action on the $handle
+        // prevents browser level actions like forward back gestures
+        touchActionNone: true
+    };
+    $(".box").resizable(opt);
+
+    DiscourseEmbed = {
+        discourseUrl: 'http://discourse.dev.hdwebsoft.co/',
+        topicId: 14
+    };
+
+    (function () {
+        var d = document.createElement('script');
+        d.type = 'text/javascript';
+        d.async = true;
+        d.src = DiscourseEmbed.discourseUrl + 'javascripts/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(d);
+    })();
+
+    function toggleCollapse() {
+        collapse = !collapse;
+        if(collapse) {
+            $(".clb-box").animate({
+                width: "-="+right+"px"
+            }, 500);
+        } else {
+            $(".clb-box").animate({
+                width: "+="+right+"px"
+            }, 500, function () {
+                $(".clb-box").removeAttr("style");
+            });
+        }
+    }
+
+    window.onload = function (ev) {
+        toggleCollapse();
+    }
+</script>
+</html>
